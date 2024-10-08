@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+    <title>Extracurricular Classes </title>
 </head>
 <body>
-    
+    <div id="app">
+        <h1>{{ pageTitle }}</h1>
+        <p> {{ pageContent }}</p>
+    </div>
+
+    <input type="button" value="Add to cart" v-on:click="addItem">
+
+    <script src="script.js"></script>
 </body>
 </html>
