@@ -3,16 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/5c0a898eae.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <title>Extracurricular Classes </title>
 </head>
 <body>
     <div id="app">
-        <h1>{{ pageTitle }}</h1>
-        <p> {{ pageContent }}</p>
+
+        <div v-if="showProduct">
+            <header>
+
+                <!-- add search box  -->
+                 
+                <h1>{{ pageTitle }}</h1>
+                <p> {{ pageContent }}</p>
+    
+                <button @click="showCheckout">
+                    {{ cartItemCount }}
+                    <i class="fa-solid fa-cart-shopping"></i>Checkout
+    
+                </button>
+    
+    
+            </header>
+            
+    
+            <div class="maths-class"> 
+                <figure>
+                    <img v-bind:src="product1.image">
+                </figure>
+                <h2>{{ product1.title }}</h2>
+                <P>Location: {{ product1.location }}</P>
+                <P>Price: {{ product1.price }}</P>
+                <P>Available spaces: {{ product1.availSp }}</P>
+                
+            </div>
+            
+            
+            <button @click="addItem" v-if="canAddToCart">Add to cart </button>
+            <button disabled="disabled" v-else> Class fully booked! </button>
+
+
+
+        </div>
+
+        <div v-else>
+            <h1>checkout</h1>
+
+            <button @click="showCheckout">
+                {{ cartItemCount }}
+                <i class="fa-solid fa-cart-shopping"></i>Checkout
+        </div>
+        
     </div>
 
-    <input type="button" value="Add to cart" v-on:click="addItem">
+    
 
     <script src="script.js"></script>
 </body>
