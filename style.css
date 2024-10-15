@@ -1,0 +1,20 @@
+.maths-class {
+    width: 300px; 
+    height: 300px; 
+    border: 3px solid #0c2dbe; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #ffffff; 
+}
+
+.maths-class img {
+    max-width: 80%; 
+    height: auto;
+}
+
+.maths-class h2, .maths-class p {
+    margin: 10px 0; 
+}
