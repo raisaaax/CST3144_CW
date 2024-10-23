@@ -9,7 +9,7 @@ let webstore = new Vue({
             title: "Maths Catch-up",
             location: "London",
             price: "£100",
-            availSp: 5,
+            availSp: 10,
             image: "images/maths.jpg"
             },
         product2: { 
@@ -17,11 +17,17 @@ let webstore = new Vue({
             title: "English Catch-up",
             location: "London",
             price: "£80",
-            availSp: 5,
+            availSp: 10,
             image: "images/english.png"
             },
-        cart: []
+        cart: [], 
+        order: {
+            firstName:"", 
+            lastName: "", 
+            phoneNr: ""
+        },
     },
+    
 
     methods:{
 
@@ -32,6 +38,11 @@ let webstore = new Vue({
         addItem(){
             this.cart.push(this.product1.id);
             console.log(this.cart);
+        }, 
+
+        submitForm(){
+            alert("Order successfully submitted!")
+            // later should add order info to db 
         }
 
     }, 
@@ -41,9 +52,15 @@ let webstore = new Vue({
             return this.cart.length || "";
 
         },
+
         canAddToCart(){
             return this.product1.availSp > this.cartItemCount;
+        }, 
+
+        lowStock(){
+            return this.product1.availSp - this.cartItemCount;
         }
+
     }
 
 })
