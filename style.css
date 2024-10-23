@@ -1,6 +1,5 @@
 .maths-class {
-    width: 300px; 
-    height: 300px; 
+    max-width: 300px; 
     border: 3px solid #0c2dbe; 
     display: flex;
     flex-direction: column;
@@ -8,13 +7,67 @@
     align-items: center;
     text-align: center;
     background-color: #ffffff; 
+    padding: 15px; 
+    margin: 0 auto; 
 }
 
 .maths-class img {
-    max-width: 80%; 
-    height: auto;
+    max-width: 100%;  
+    height: auto; 
 }
 
-.maths-class h2, .maths-class p {
+.maths-class h2, a
+.maths-class p {
     margin: 10px 0; 
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+
+header button {
+    margin-left: auto;
+    height: 50px;
+}
+
+.checkoutTitle {
+    display: flex;               
+    justify-content: space-between;   
+    padding: 20px;              
+    border-top: 1px solid #ccc; 
+}
+
+.orderCont {
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #ffffff;
+    border: 3px solid #c0c1c4;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-elements, .form-elements label, .form-elements input {
+    width: 100%; 
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    padding: 10px;
+    box-sizing: border-box; 
 }
