@@ -1,4 +1,13 @@
-.maths-class {
+.classes {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    gap: 40px;
+    padding:20px ; 
+    justify-content: space-evenly; 
+  }
+
+/* .class-container {
     max-width: 300px; 
     border: 3px solid #0c2dbe; 
     display: flex;
@@ -9,16 +18,51 @@
     background-color: #ffffff; 
     padding: 15px; 
     margin: 0 auto; 
-}
+} */
 
-.maths-class img {
+.class-container {
+    /* flex: 1 1 500px;  */
+    max-width: 450px; /* Sets a max width for each class box */
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+    text-align: center;
+  }
+
+.class-container img {
     max-width: 100%;  
     height: auto; 
 }
 
-.maths-class h2, a
-.maths-class p {
+.class-container h2, a
+.class-container p {
     margin: 10px 0; 
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.sort-label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+    text-align: center;
+}
+
+
+.sortIcon {
+    width: 25px;
+    vertical-align: middle;
+}
+
+/* Change border color and background when radio is checked */
+input[type="radio"]:checked + .sort-label {
+    border-color: #007bff; 
+    background-color: #e0f0ff; 
 }
 
 header {
