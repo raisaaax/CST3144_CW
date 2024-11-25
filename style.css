@@ -30,8 +30,8 @@
   }
 
 .class-container img {
-    max-width: 100%;  
-    height: auto; 
+    max-width: 60%;  
+    max-height: 50%; 
 }
 
 .class-container h2, a
