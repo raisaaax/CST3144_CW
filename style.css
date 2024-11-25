@@ -1,4 +1,4 @@
-.classes {
+.classes, .cart_items {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap; 
@@ -20,7 +20,7 @@
     margin: 0 auto; 
 } */
 
-.class-container {
+.class-container , .cart_item{
     /* flex: 1 1 500px;  */
     max-width: 450px; /* Sets a max width for each class box */
     border: 1px solid #ddd;

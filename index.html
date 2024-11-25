@@ -37,35 +37,35 @@
             </header>
             <br><br>
 
-            <!-- <h4>{{ pageContent }}</h4> -->
+            <!-- changed from here -->
 
-
+            
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Sort By:
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Price</a></li>
-                    <li><a class="dropdown-item" href="#">Location</a></li>
-                    <li><a class="dropdown-item" href="#">Subject</a></li>
-                    <li><a class="dropdown-item" href="#">Available Spaces</a></li>
+                    <li><a class="dropdown-item" @click="setSort('Price', sortDirection)">Price</a></li>
+                    <li><a class="dropdown-item" @click="setSort('Location', sortDirection)">Location</a></li>
+                    <li><a class="dropdown-item" @click="setSort('Subject', sortDirection)">Subject Title</a></li>
+                    <li><a class="dropdown-item" @click="setSort('Availability', sortDirection)">Available Spaces</a></li>
                 </ul>
 
                 
              <!-- Ascending Radio Option -->
-                <input type="radio" id="Ascending" name="sortByDirection" value="Ascending">
-                <label for="Ascending" class="sort-label">
-                    <img src="images/icons8-double-up-64.png" alt="Ascending Icon" class="sortIcon"> Ascending
-                </label>
-                
-                <!-- Descending Radio Option -->
-                <input type="radio" id="Descending" name="sortByDirection" value="Descending">
-                <label for="Descending" class="sort-label">
-                    <img src="images/icons8-double-down-64.png" alt="Descending Icon" class="sortIcon"> Descending
-                </label>
+             <input type="radio" id="Ascending" name="sortByDirection" value="Ascending" @change="setSort(sortBy, 'Ascending')" checked>
+             <label for="Ascending" class="sort-label">
+                 <img src="images/icons8-double-up-64.png" alt="Ascending Icon" class="sortIcon"> Ascending
+             </label>
+             
+             <!-- Descending Radio Option -->
+             <input type="radio" id="Descending" name="sortByDirection" value="Descending" @change="setSort(sortBy, 'Descending')">
+             <label for="Descending" class="sort-label">
+                 <img src="images/icons8-double-down-64.png" alt="Descending Icon" class="sortIcon"> Descending
+             </label>
             </div>
 
-            <div class="classes"  > 
+            <div class="classes"> 
             <div class="class-container"  v-for="product in sortedProducts"> 
                 <figure>
                     <img v-bind:src="product.image">
@@ -93,6 +93,8 @@
             </div>
         </div>
 
+
+        <!-- cart page -->
         <div v-else>
             <div class="checkoutTitle">
                 <h1>Cart</h1>
@@ -100,11 +102,22 @@
                 <button type="button" class="btn btn-primary" @click="showCheckout">
                     {{ cartItemCount }}
                     <i class="fa-solid fa-cart-shopping"></i> Cart </button>
-                 
-                
+            </div>
 
+        <!-- Display each cart item -->
+        <div class="cart_items">
+            <div v-for="item in cartItems" :key="item.id" class="cart_item">
+                <img :src="item.image" alt="" width="100">
+                <h3>{{ item.title }}</h3>
+                <p>Location: {{ item.location }}</p>
+                <p>Price: {{ item.price }}</p>
+                <p>Spaces Left: {{ item.availSp - cartCount(item.id) }}</p>
+                <button type="button" class="btn btn-primary" >REMOVE</button>
+            </div>
         </div>
            
+
+        <!--Order form -->
             <form id="orderForm"> 
                 <div class="orderCont">
                     <div class="form-elements">
