@@ -7,8 +7,8 @@ let webstore = new Vue({
         products: [],
         cart: [], 
         order: {
-            firstName:"", 
-            phoneNr: ""
+            name: "", 
+            phoneNr: "",
         },
 
         sortBy: "Price", 
@@ -52,47 +52,6 @@ let webstore = new Vue({
             console.log(this.cart);
         }, 
 
-        submitForm(){
-            const lessons = this.cartItems.map(item => ({
-                lessonId: item.id,
-                spaces: this.cartCount(item.id)  // Count of spaces booked for this lesson
-            }));
-
-            // Calculate total spaces
-            const totalSpaces = lessons.reduce((total, lesson) => total + lesson.spaces, 0);
-
-            // Create the order object
-            const order = {
-                name: `${this.order.firstName} ${this.order.lastName}`,
-                phoneNumber: this.order.phoneNr,
-                lessons: lessons,
-                totalSpaces: totalSpaces  // Add total spaces booked for all lessons
-            };
-
-            
-            fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/orders", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(order)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(`Order submitted successfully! Order ID: ${data.orderId}`);
-                    // Clear the cart and reset the form
-                    this.cart = [];
-                    this.order = { firstName: "", lastName: "", phoneNr: "" };
-                } else {
-                    alert("Failed to submit order. Please try again.");
-                }
-            })
-            .catch(error => {
-                alert("An error occurred. Please try again.");
-            });
-        },
-
         canAddToCart(product){
             return product.availSp > this.cartCount(product.id);
         }, 
@@ -104,8 +63,46 @@ let webstore = new Vue({
 
         removeItem(productId) {
             this.cart = this.cart.filter(item => item !== productId);
+        },
+
+        async placeOrder() {
+            
+
+            const lessons=this.cartItems.map(item => ({ lessonId: item.id, spaces: this.cartCount(item.id) })) ;
+            const orderData = {
+                name: this.order.name, 
+                phoneNumber: this.order.phoneNr, 
+                lessons: lessons ,
+                totalSpaces: lessons.reduce((total, lesson) => total + lesson.spaces, 0)
+                
+            };
+
+            console.log(this.order.game)
+            // Send the POST request to the back-end
+            await fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/orders", {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(orderData), 
+
+            }).then(
+                function (response) {
+                    response.json().then(
+                        function (json) {
+                            if (json.success) {
+                                alert("Order placed with number: " + json.orderId);
+                            } else {
+                                alert("Failed to place order: " + json.message);
+                            }
+                        }
+                    );
+                }
+            ).catch(function (error) {
+                console.error("Error placing the order:", error);
+                alert("There was an error placing the order. Please try again.");
+            });
         }
-    
         
    
 
