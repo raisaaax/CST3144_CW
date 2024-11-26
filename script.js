@@ -8,7 +8,6 @@ let webstore = new Vue({
         cart: [], 
         order: {
             firstName:"", 
-            lastName: "", 
             phoneNr: ""
         },
 
@@ -16,26 +15,19 @@ let webstore = new Vue({
         sortDirection: "Ascending"
     },
 
-    created: {
+    created:
 
-        function(){
+        function () {
             fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/products").then(
                 function (response) {
                     response.json().then(
                         function (json) {
-                            //alert(json);
-                            //console.log(json);
                             webstore.products = json;
                         }
                     )
                 }
             )
-            
-        }
-
-
-
-    },
+        },
     
 
     methods:{
@@ -61,9 +53,45 @@ let webstore = new Vue({
         }, 
 
         submitForm(){
-            alert("Order successfully submitted!")
-            // later should add order info to db 
-        }, 
+            const lessons = this.cartItems.map(item => ({
+                lessonId: item.id,
+                spaces: this.cartCount(item.id)  // Count of spaces booked for this lesson
+            }));
+
+            // Calculate total spaces
+            const totalSpaces = lessons.reduce((total, lesson) => total + lesson.spaces, 0);
+
+            // Create the order object
+            const order = {
+                name: `${this.order.firstName} ${this.order.lastName}`,
+                phoneNumber: this.order.phoneNr,
+                lessons: lessons,
+                totalSpaces: totalSpaces  // Add total spaces booked for all lessons
+            };
+
+            
+            fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/orders", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(order)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(`Order submitted successfully! Order ID: ${data.orderId}`);
+                    // Clear the cart and reset the form
+                    this.cart = [];
+                    this.order = { firstName: "", lastName: "", phoneNr: "" };
+                } else {
+                    alert("Failed to submit order. Please try again.");
+                }
+            })
+            .catch(error => {
+                alert("An error occurred. Please try again.");
+            });
+        },
 
         canAddToCart(product){
             return product.availSp > this.cartCount(product.id);
@@ -73,12 +101,19 @@ let webstore = new Vue({
             this.sortBy = criteria;
             this.sortDirection = direction;
         },
+
+        removeItem(productId) {
+            this.cart = this.cart.filter(item => item !== productId);
+        }
+    
+        
    
 
     }, 
 
+
     
-    computed:{
+    computed: {
         
         cartItemCount(){
             return this.cart.length;

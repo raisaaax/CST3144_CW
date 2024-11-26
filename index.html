@@ -1,95 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet"> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    
+
     <link rel="stylesheet" href="style.css">
 
     <script src="https://kit.fontawesome.com/5c0a898eae.js" crossorigin="anonymous"></script>
-    
+
     <link rel="icon" href="images/icons8-light-bulb-40.png" type="image/x-icon">
     <title>Extracurricular Classes </title>
 
 </head>
+
 <body>
     <div id="app">
 
         <div v-if="showProduct">
-            
+
             <header>
 
                 <!-- add search box  -->
-                 
+
                 <h1>{{ pageTitle }}</h1>
-                                
-                
-                <button type="button" class="btn btn-primary" @click="showCheckout">
+
+                <!-- cart button only clickable when not empty -->
+                <button type="button" class="btn btn-primary" @click="showCheckout" :disabled="cart.length === 0">
                     {{ cartItemCount }}
                     <i class="fa-solid fa-cart-shopping"></i> Cart </button>
-    
-    
+
+
             </header>
             <br><br>
 
             <!-- changed from here -->
 
-            
+
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                     Sort By:
                 </button>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" @click="setSort('Price', sortDirection)">Price</a></li>
                     <li><a class="dropdown-item" @click="setSort('Location', sortDirection)">Location</a></li>
                     <li><a class="dropdown-item" @click="setSort('Subject', sortDirection)">Subject Title</a></li>
-                    <li><a class="dropdown-item" @click="setSort('Availability', sortDirection)">Available Spaces</a></li>
+                    <li><a class="dropdown-item" @click="setSort('Availability', sortDirection)">Available Spaces</a>
+                    </li>
                 </ul>
 
-                
-             <!-- Ascending Radio Option -->
-             <input type="radio" id="Ascending" name="sortByDirection" value="Ascending" @change="setSort(sortBy, 'Ascending')" checked>
-             <label for="Ascending" class="sort-label">
-                 <img src="images/icons8-double-up-64.png" alt="Ascending Icon" class="sortIcon"> Ascending
-             </label>
-             
-             <!-- Descending Radio Option -->
-             <input type="radio" id="Descending" name="sortByDirection" value="Descending" @change="setSort(sortBy, 'Descending')">
-             <label for="Descending" class="sort-label">
-                 <img src="images/icons8-double-down-64.png" alt="Descending Icon" class="sortIcon"> Descending
-             </label>
+
+                <!-- Ascending Radio Option -->
+                <input type="radio" id="Ascending" name="sortByDirection" value="Ascending"
+                    @change="setSort(sortBy, 'Ascending')" checked>
+                <label for="Ascending" class="sort-label">
+                    <img src="images/icons8-double-up-64.png" alt="Ascending Icon" class="sortIcon"> Ascending
+                </label>
+
+                <!-- Descending Radio Option -->
+                <input type="radio" id="Descending" name="sortByDirection" value="Descending"
+                    @change="setSort(sortBy, 'Descending')">
+                <label for="Descending" class="sort-label">
+                    <img src="images/icons8-double-down-64.png" alt="Descending Icon" class="sortIcon"> Descending
+                </label>
             </div>
 
-            <div class="classes"> 
-            <div class="class-container"  v-for="product in sortedProducts"> 
-                <figure>
-                    <img v-bind:src="product.image">
-                </figure>
-                <h2>{{ product.title }}</h2>
-                <P>Location: {{ product.location }}</P>
-                <P>Price: {{ product.price }}</P>
-                <P>Available spaces: {{ product.availSp }}</P>
-                
-            
-            
-            
-            <button type="button" class="btn btn-primary" @click="addItem(product)" v-if="canAddToCart(product)">Add to cart </button>
-            <button type="button" class="btn btn-primary" disabled="disabled" v-else> Class fully booked! </button>
-            
-            <!-- <span v-if="lowStock >= 1 && lowStock <= 5"> Only {{ lowStock }} left!</span> 
-            <span v-if="product.availSp - cartCount(product.id) < 5"> Only {{ product.availSp - cartCount(product.id) }} left!</span> -->
-            
-        
-            <span v-if="product.availSp - cartCount(product.id) <= 5 && canAddToCart(product)">
-                Only {{ product.availSp - cartCount(product.id) }} spaces left!
-            </span>
-            </div>
-            
+            <div class="classes">
+                <div class="class-container" v-for="product in sortedProducts">
+                    <figure>
+                        <img v-bind:src="product.image">
+                    </figure>
+                    <h2>{{ product.title }}</h2>
+                    <P>Location: {{ product.location }}</P>
+                    <P>Price: {{ product.price }}</P>
+                    <P>Available spaces: {{ product.availSp }}</P>
+
+
+
+
+                    <button type="button" class="btn btn-primary" @click="addItem(product)"
+                        v-if="canAddToCart(product)">Add to cart
+                    </button>
+                    <button type="button" class="btn btn-primary" disabled="disabled" v-else> Class fully booked!
+                    </button>
+
+                    <!-- <span v-if="lowStock >= 1 && lowStock <= 5"> Only {{ lowStock }} left!</span> 
+                        <span v-if="product.availSp - cartCount(product.id) < 5"> Only {{ product.availSp - cartCount(product.id) }} left!</span> -->
+
+
+                    <span v-if="product.availSp - cartCount(product.id) <= 5 && canAddToCart(product)">
+                        Only {{ product.availSp - cartCount(product.id) }} spaces left!
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -98,54 +106,59 @@
         <div v-else>
             <div class="checkoutTitle">
                 <h1>Cart</h1>
-    
+
                 <button type="button" class="btn btn-primary" @click="showCheckout">
                     {{ cartItemCount }}
                     <i class="fa-solid fa-cart-shopping"></i> Cart </button>
             </div>
 
-        <!-- Display each cart item -->
-        <div class="cart_items">
-            <div v-for="item in cartItems" :key="item.id" class="cart_item">
-                <img :src="item.image" alt="" width="100">
-                <h3>{{ item.title }}</h3>
-                <p>Location: {{ item.location }}</p>
-                <p>Price: {{ item.price }}</p>
-                <p>Spaces Left: {{ item.availSp - cartCount(item.id) }}</p>
-                <button type="button" class="btn btn-primary" >REMOVE</button>
-            </div>
-        </div>
-           
-
-        <!--Order form -->
-            <form id="orderForm"> 
-                <div class="orderCont">
-                    <div class="form-elements">
-                        <label for="reg_name">What's your first name?</label>
-                        <input v-model.trim="order.firstName" id="reg_name" placeholder="Enter your name...">
-                    
-                        <label for="reg_surname">What's your last name?</label>
-                        <input v-model.trim="order.lastName" id="reg_surname"  placeholder="Enter your surname...">
-
-                        <label for="reg_surname">What's your phone number?</label>
-                        <input v-model.number="order.phoneNr" id="reg_phone"  placeholder="Enter your mobile number...">
-                        
-                    </div>
-                    <button @click="submitForm" type="button" class="btn btn-primary">Submit order</button>
-                    <!-- <h1> {{ order.firstName }}</h1>
-                    <h1> {{ order.lastName }}</h1>
-                    <h1> {{ order.phoneNr }}</h1> -->
+            <!-- Display each cart item -->
+            <div class="cart_items">
+                <div v-for="item in cartItems" :key="item.id" class="cart_item">
+                    <img :src="item.image" alt="" width="100">
+                    <h3>{{ item.title }}</h3>
+                    <p>Location: {{ item.location }}</p>
+                    <p>Price: {{ item.price }}</p>
+                    <p>Spaces Left: {{ item.availSp - cartCount(item.id) }}</p>
+                    <button type="button" class="btn btn-primary" @click="removeItem(item.id)">REMOVE</button>
                 </div>
-            </form>
+            </div>
+
+            <!-- shows cart empty message -->
+            <div class="emptyCart" v-if="cartItemCount===0">
+                <span > Your cart is empty!</span>
+                <button type="button" class="btn btn-primary" @click="showCheckout"> Return to Lessons page</button>
+            </div>
+
+
+            <!--Order form is only displayed if at least one item is added to the cart -->
+            <div v-else>
+                <form id="orderForm">
+                    <div class="orderCont">
+                        <div class="form-elements">
+                            <label for="reg_name">What's your name?</label>
+                            <input v-model.trim="order.name" id="reg_name" placeholder="Enter your name...">
+
+                            <label for="reg_phone">What's your phone number?</label>
+                            <input type="number" v-model.number="order.phoneNr" id="reg_phone"
+                                placeholder="Enter your mobile number...">
+
+                        </div>
+                        <button @click="submitForm" type="button" class="btn btn-primary">Submit order</button>
+
+                    </div>
+                </form>
+            </div>
 
         </div>
 
     </div>
 
-    
+
     <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
     <script src="script.js"></script>
     <!-- <script src="products.js"></script> -->
-    
+
 </body>
+
 </html>
