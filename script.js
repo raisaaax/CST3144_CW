@@ -131,18 +131,18 @@ let webstore = new Vue({
 
         }, 
 
-        search() {
-            if (this.searchWord.trim() !== '') {
-              fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/products/search/${this.searchWord}")
-                .then(response => response.json())
-                .then(data => {
-                  this.lessons = data; // Update lessons with search results
-                })
-                .catch(error => console.error('Error searching lessons:', error));
-            } else {
-              this.fetchLessons(); // Reset to all lessons if search is empty
-            }
-          },
+        // search() {
+        //     if (this.searchWord.trim() !== '') {
+        //       fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/products/search/${this.searchWord}")
+        //         .then(response => response.json())
+        //         .then(data => {
+        //           this.lessons = data; // Update lessons with search results
+        //         })
+        //         .catch(error => console.error('Error searching lessons:', error));
+        //     } else {
+        //       this.fetchLessons(); // Reset to all lessons if search is empty
+        //     }
+        //   },
     }, 
     
     computed: {
