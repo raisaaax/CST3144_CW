@@ -30,18 +30,18 @@
 
                 <h1>{{ pageTitle }}</h1>
 
+
+                <input v-model="searchWord" class="searchBox" placeholder="Search lessons..." />
+                
                 <!-- cart button only clickable when not empty -->
                 <button type="button" class="btn btn-primary" @click="showCheckout" :disabled="cart.length === 0">
                     {{ cartItemCount }}
                     <i class="fa-solid fa-cart-shopping"></i> Cart </button>
 
-
             </header>
             <br><br>
 
-            <!-- changed from here -->
-
-
+            <!-- radio buttons for choosing sorting options -->
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -80,10 +80,6 @@
                     <P>Location: {{ product.location }}</P>
                     <P>Price: {{ product.price }}</P>
                     <P>Available spaces: {{ product.availSp }}</P>
-
-
-
-
                     <button type="button" class="btn btn-primary" @click="addItem(product)"
                         v-if="canAddToCart(product)">Add to cart
                     </button>

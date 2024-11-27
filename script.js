@@ -13,12 +13,14 @@ let webstore = new Vue({
         // holds error messages for RegEx
         nameError: "", 
         phoneError: "",
+        searchWord: "",
         sortBy: "Price", 
         sortDirection: "Ascending"
     },
 
     created:
 
+        //lifecycle hook 
         function () {
             fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/products").then(
                 function (response) {
@@ -45,10 +47,12 @@ let webstore = new Vue({
             return count;
         },
 
+        //toggle between 
         showCheckout(){
             this.showProduct = this.showProduct? false: true;
         },
-
+        
+        //adds item to cart
         addItem(product){
             this.cart.push(product.id);
             console.log(this.cart);
@@ -63,6 +67,7 @@ let webstore = new Vue({
             this.sortDirection = direction;
         },
 
+        //removes item from cart
         removeItem(productId) {
             this.cart = this.cart.filter(item => item !== productId);
         },
@@ -123,13 +128,22 @@ let webstore = new Vue({
                 console.error("Error placing the order:", error);
                 alert("There was an error placing the order. Please try again.");
             });
-        }
-        
-   
 
+        }, 
+
+        search() {
+            if (this.searchWord.trim() !== '') {
+              fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/products/search/${this.searchWord}")
+                .then(response => response.json())
+                .then(data => {
+                  this.lessons = data; // Update lessons with search results
+                })
+                .catch(error => console.error('Error searching lessons:', error));
+            } else {
+              this.fetchLessons(); // Reset to all lessons if search is empty
+            }
+          },
     }, 
-
-
     
     computed: {
         
@@ -138,6 +152,7 @@ let webstore = new Vue({
 
         },
 
+        //displays items that have been added to cart
         cartItems(){
             return this.products.filter(product => this.cart.includes(product.id));
         },

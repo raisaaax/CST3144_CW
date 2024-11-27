@@ -51,6 +51,10 @@ input[type="radio"]:checked + .sort-label {
     background-color: #e0f0ff; 
 }
 
+header .searchBox {
+    margin-left: auto;
+    height: 50px;;
+}
 header {
     display: flex;
     justify-content: space-between;
