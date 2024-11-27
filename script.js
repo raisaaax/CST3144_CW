@@ -10,7 +10,9 @@ let webstore = new Vue({
             name: "", 
             phoneNr: "",
         },
-
+        // holds error messages for RegEx
+        nameError: "", 
+        phoneError: "",
         sortBy: "Price", 
         sortDirection: "Ascending"
     },
@@ -65,6 +67,26 @@ let webstore = new Vue({
             this.cart = this.cart.filter(item => item !== productId);
         },
 
+        //regEx for validating name input 
+        validateName() {
+            const nameRegex = /^[a-zA-Z\s]*$/; // Only letters and spaces
+            if (!nameRegex.test(this.order.name)) {
+                this.nameError = "Name must only contain letters.";
+            } else {
+                this.nameError = ""; // Clear error if valid
+            }
+        },
+
+        //regEx for validating phone number input 
+        validatePhone() {
+            const phoneRegex = /^\+?[0-9]\d{9}$/; // Only numbers
+            if (!phoneRegex.test(this.order.phoneNr)) {
+                this.phoneError = "Phone number must only contain numbers, and 10 digits long";
+            } else {
+                this.phoneError = ""; // Clear error if valid
+            }
+        },
+
         async placeOrder() {
             
 
@@ -77,7 +99,6 @@ let webstore = new Vue({
                 
             };
 
-            console.log(this.order.game)
             // Send the POST request to the back-end
             await fetch("https://cst3144cwapp-env.eba-3mniueut.eu-west-2.elasticbeanstalk.com/collections/orders", {
                 method: "POST", 
@@ -174,6 +195,12 @@ let webstore = new Vue({
             if(this.sortBy === "Availability" && this.sortDirection === "Descending")
                 return this.products.sort(sortByAvailability).reverse();
 
+        }, 
+
+        //checks if order fields are valid 
+        //by ensuring error fields are empty 
+        isFormValid(){
+            return this.nameError === "" & this.phoneError === "" && this.order.name && this.order.phoneNr;
         }
     
     }

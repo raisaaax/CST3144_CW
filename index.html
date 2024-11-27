@@ -137,14 +137,18 @@
                     <div class="orderCont">
                         <div class="form-elements">
                             <label for="reg_name">What's your name?</label>
-                            <input v-model.trim="order.name" id="reg_name" placeholder="Enter your name...">
+                            <input @input="validateName" v-model.trim="order.name" id="reg_name" placeholder="Enter your name...">
+                            <!-- display error message for incorrect name format-->
+                            <p v-if="nameError" style="color: red;">{{ nameError }}</p>
 
                             <label for="reg_phone">What's your phone number?</label>
-                            <input type="number" v-model.number="order.phoneNr" id="reg_phone"
+                            <input @input="validatePhone" v-model.number="order.phoneNr" id="reg_phone"
                                 placeholder="Enter your mobile number...">
+                            <p v-if="phoneError" style="color: red;">{{ phoneError }}</p>
 
                         </div>
-                        <button @click="placeOrder" type="button" class="btn btn-primary">Submit order</button>
+                        <!-- submit order button  -->
+                        <button @click="placeOrder" :disabled="!isFormValid" type="button" class="btn btn-primary" >Submit order</button>
 
                     </div>
                 </form>
